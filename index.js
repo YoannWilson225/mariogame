@@ -1,10 +1,10 @@
-import imageplatefrom from './images/platform.png'
 // Recupere notre element canvas
 const canvas = document.querySelector('canvas');
 const gravity = 0.5
 canvas.width = 1000;
 canvas.height = 576;
 const imagePlatform = document.querySelector('.imageplatform');
+const imageHill = document.querySelector('.imagehill');
 // On lui donne un contexte
 let ctx = canvas.getContext('2d');
 
@@ -120,20 +120,55 @@ class Platform {
         // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
- 
-const image = new Image();
-image.src = imagePlatform;
 
+class Hill {
+    constructor({ x, y, image }) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 200
+        this.height = 20
+
+        this.image = image,
+        this.width = this.image.width
+        this.height = this.image.height
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        // ctx.fillStyle = 'blue';
+        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+// function createImage(imageSrc){
+//     const img = new Image();
+//     img.src = imageSrc
+//     return img
+// }
+
+const hills = [new Hill({
+    x: -1, 
+    y: 0,
+    image: imageHill
+})]
 
 const platforms = [new Platform({ 
-    x: 200, 
-    y:150,
-    image
+    x: -1, 
+    y:515,
+    image:imagePlatform
 }),
  new Platform({
-    x : 300,
-    y : 300,
-    image
+    x : imagePlatform.width - 3,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 2 + 100,
+    y : 515,
+    image:imagePlatform
  })];
 
 
@@ -151,16 +186,18 @@ const platforms = [new Platform({
 
 function animate() {
     requestAnimationFrame(animate);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = '#124552';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     // generateObjects.forEach(generateObject => {
     //     generateObject.draw()
     // });
-         
+    hills.forEach((hill) => {
+        hill.draw();
+    })
     platforms.forEach((platform) => {
         platform.draw();
     })
+
     player.update(); 
 
     if (keys.right.pressed && player.position.x < 400) {
@@ -175,12 +212,23 @@ function animate() {
             platforms.forEach((platform) => {
                 platform.position.x -= 5
             })
+
+            hills.forEach((hill) => {
+                hill.position.x -= 3;
+            })
         }else if (keys.left.pressed) {
             scrollOffset -= 5
+
+
             platforms.forEach((platform) => {
                 platform.position.x += 5
             })
+            hills.forEach((hill) => {
+                hill.position.x += 3;
+            })
         }
+
+
     }
 
     platforms.forEach((platform) => {
