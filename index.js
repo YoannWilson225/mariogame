@@ -1,12 +1,10 @@
-import platform from './images/platform.png'
-
+import imageplatefrom from './images/platform.png'
 // Recupere notre element canvas
 const canvas = document.querySelector('canvas');
 const gravity = 0.5
 canvas.width = 1000;
 canvas.height = 576;
-// const imagePlatform = document.querySelector('.imageplatform');
-// const background = document.querySelector('.background');
+const imagePlatform = document.querySelector('.imageplatform');
 // On lui donne un contexte
 let ctx = canvas.getContext('2d');
 
@@ -102,7 +100,7 @@ addEventListener('keyup', ({ keyCode }) => {
 
 
 class Platform {
-    constructor({ x, y }) {
+    constructor({ x, y, image }) {
         this.position = {
             x,
             y
@@ -111,29 +109,31 @@ class Platform {
         this.width = 200
         this.height = 20
 
-        // this.image = image,
-        // this.width = this.image.width
-        // this.height = this.image.height
+        this.image = image,
+        this.width = this.image.width
+        this.height = this.image.height
     }
 
     draw() {
-        // ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        // ctx.fillStyle = 'blue';
+        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
-
-
  
+const image = new Image();
+image.src = imagePlatform;
+
+
 const platforms = [new Platform({ 
     x: 200, 
-    y: 100,
-    // image: imagePlatform
+    y:150,
+    image
 }),
  new Platform({
-    x : 400,
+    x : 300,
     y : 300,
-    // image: imagePlatform
+    image
  })];
 
 
@@ -146,21 +146,22 @@ const platforms = [new Platform({
 //  ]
      
 
-let scrollOffset = 0;
+ let scrollOffset = 0;
 
 
 function animate() {
     requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // generateObjects.forEach(generateObject => {
     //     generateObject.draw()
     // });
-    player.update(); 
+         
     platforms.forEach((platform) => {
         platform.draw();
     })
-    
+    player.update(); 
 
     if (keys.right.pressed && player.position.x < 400) {
         player.velocity.x = 5
