@@ -12,6 +12,7 @@ console.log(ctx);
 
 class Player {
     constructor() {
+        this.speed = 10
         this.position = {x: 200, y: 200};
         this.width =  30;
         this.height = 30;
@@ -31,11 +32,10 @@ class Player {
 
         if (this.position.y +this.height +this.velocity.y <= canvas.height)
         this.velocity.y += gravity 
-        else this.velocity.y = 0
     }
 }
 
-const player = new Player();
+let player = new Player();
 
 const keys = {
     right: {
@@ -149,13 +149,13 @@ class Hill {
 //     return img
 // }
 
-const hills = [new Hill({
+let hills = [new Hill({
     x: -1, 
     y: 0,
     image: imageHill
 })]
 
-const platforms = [new Platform({ 
+let platforms = [new Platform({ 
     x: -1, 
     y:515,
     image:imagePlatform
@@ -179,9 +179,52 @@ const platforms = [new Platform({
 //         image: createImage(background)
 //      })
 //  ]
-     
+let scrollOffset = 0;
 
- let scrollOffset = 0;
+function init() {
+
+player = new Player();
+
+// function createImage(imageSrc){
+//     const img = new Image();
+//     img.src = imageSrc
+//     return img
+// }
+
+hills = [new Hill({
+    x: -1, 
+    y: 0,
+    image: imageHill
+})]
+
+platforms = [new Platform({ 
+    x: -1, 
+    y:515,
+    image:imagePlatform
+}),
+ new Platform({
+    x : imagePlatform.width - 3,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 2 + 100,
+    y : 515,
+    image:imagePlatform
+ })];
+
+//  const generateObjects = [
+//     new GenerateObject({
+//         x:0,
+//         y:0,
+//         image: createImage(background)
+//      })
+//  ]
+    
+scrollOffset = 0;
+}
+
+
 
 
 function animate() {
@@ -201,30 +244,30 @@ function animate() {
     player.update(); 
 
     if (keys.right.pressed && player.position.x < 400) {
-        player.velocity.x = 5
+        player.velocity.x = player.speed
     }else if(keys.left.pressed && player.position.x > 100) {
-        player.velocity.x = -5
+        player.velocity.x = -player.speed
     }  else {
         player.velocity.x = 0
 
         if (keys.right.pressed) {
-            scrollOffset += 5
+            scrollOffset += player.speed
             platforms.forEach((platform) => {
-                platform.position.x -= 5
+                platform.position.x -= player.speed
             })
 
             hills.forEach((hill) => {
-                hill.position.x -= 3;
+                hill.position.x -= player.speed * 0.66;
             })
         }else if (keys.left.pressed) {
-            scrollOffset -= 5
+            scrollOffset -= player.speed
 
 
             platforms.forEach((platform) => {
-                platform.position.x += 5
+                platform.position.x += player.speed
             })
             hills.forEach((hill) => {
-                hill.position.x += 3;
+                hill.position.x += player.speed * 0.66;
             })
         }
 
@@ -241,6 +284,10 @@ function animate() {
     
     if (scrollOffset > 2000) {
         console.log(scrollOffset)
+    }
+
+    if (player.position.y > canvas.height) {
+        init()
     }
 }
 
