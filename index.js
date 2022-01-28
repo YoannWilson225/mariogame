@@ -3,8 +3,10 @@ import platform from './images/platform.png'
 // Recupere notre element canvas
 const canvas = document.querySelector('canvas');
 const gravity = 0.5
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = 1000;
+canvas.height = 576;
+// const imagePlatform = document.querySelector('.imageplatform');
+// const background = document.querySelector('.background');
 // On lui donne un contexte
 let ctx = canvas.getContext('2d');
 
@@ -12,7 +14,7 @@ console.log(ctx);
 
 class Player {
     constructor() {
-        this.position = {x: 100, y: 100};
+        this.position = {x: 200, y: 200};
         this.width =  30;
         this.height = 30;
         this.velocity = {x: 0, y: 1};
@@ -108,34 +110,57 @@ class Platform {
 
         this.width = 200
         this.height = 20
+
+        // this.image = image,
+        // this.width = this.image.width
+        // this.height = this.image.height
     }
 
     draw() {
+        // ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
         ctx.fillStyle = 'blue';
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
-  
+
+
+ 
 const platforms = [new Platform({ 
     x: 200, 
-    y: 100
+    y: 100,
+    // image: imagePlatform
 }),
  new Platform({
-    x : 500,
-    y : 200
+    x : 400,
+    y : 300,
+    // image: imagePlatform
  })];
 
 
- let scrollOffset = 0;
+//  const generateObjects = [
+//     new GenerateObject({
+//         x:0,
+//         y:0,
+//         image: createImage(background)
+//      })
+//  ]
+     
+
+let scrollOffset = 0;
 
 
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // generateObjects.forEach(generateObject => {
+    //     generateObject.draw()
+    // });
     player.update(); 
     platforms.forEach((platform) => {
         platform.draw();
     })
+    
 
     if (keys.right.pressed && player.position.x < 400) {
         player.velocity.x = 5
