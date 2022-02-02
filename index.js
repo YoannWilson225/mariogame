@@ -5,6 +5,11 @@ canvas.width = 1000;
 canvas.height = 576;
 const imagePlatform = document.querySelector('.imageplatform');
 const imageHill = document.querySelector('.imagehill');
+const imagePlatformSmallTall = document.querySelector('.imageplatformsmall');
+const imageSpriteStandRight = document.querySelector('.spriteStandRight')
+const imageSpriteRunRight = document.querySelector('.spriteRunRight')
+const imageSpriteRunLeft = document.querySelector('.spriteRunLeft')
+const imageSpriteStandLeft = document.querySelector('.spriteStandLeft')
 // On lui donne un contexte
 let ctx = canvas.getContext('2d');
 
@@ -14,18 +19,59 @@ class Player {
     constructor() {
         this.speed = 10
         this.position = {x: 200, y: 200};
-        this.width =  30;
-        this.height = 30;
+        this.width =  66;
+        this.height = 150;
         this.velocity = {x: 0, y: 1};
+
+        this.image = imageSpriteStandRight
+        this.frames = 0
+
+        this.sprites = {
+            stand: {
+                right: imageSpriteStandRight,
+                left: imageSpriteStandLeft,
+                cropWidht: 177,
+                width: 66
+            },
+            run: {
+                right: imageSpriteRunRight,
+                left: imageSpriteRunLeft,
+                cropWidht: 341,
+                width: 127.875
+            }
+        }
+ 
+        this.currentSprite = this.sprites.stand.right
+        this.currentCropWidht = 177
+
     }
 
     draw() {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        ctx.drawImage(
+            this.currentSprite,
+            this.currentCropWidht * this.frames,
+            0,
+            this.currentCropWidht,
+            400,
+            this.position.x,
+            this.position.y, 
+            this.width, 
+            this.height
+        )
     }
 
 
     update() {
+        this.frames++ 
+        if (this.frames > 59 &&
+            (this.currentSprite === this.sprites.stand.right ||
+                this.currentSprite === this.sprites.stand.left))
+        this.frames = 0
+        else if (
+            this.frames > 29 &&
+            (this.currentSprite === this.sprites.run.right ||
+                this.currentSprite === this.sprites.run.left))
+        this.frames = 0 
         this.draw()
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
@@ -52,6 +98,7 @@ addEventListener('keydown', ({ keyCode }) => {
         case 37: 
             console.log('left')
             keys.left.pressed = true
+            lastKey = 'left';
             break;
 
         // case 40: 
@@ -62,7 +109,7 @@ addEventListener('keydown', ({ keyCode }) => {
         case 39: 
             console.log('right')
             keys.right.pressed = true
-
+            lastKey = 'right'
             break;
 
         case 38: 
@@ -121,6 +168,28 @@ class Platform {
     }
 }
 
+class PlatformSmallTall {
+    constructor({ x, y, image }) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 200
+        this.height = 20
+
+        this.image = image,
+        this.width = this.image.width
+        this.height = this.image.height
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        // ctx.fillStyle = 'blue';
+        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
 class Hill {
     constructor({ x, y, image }) {
         this.position = {
@@ -149,27 +218,13 @@ class Hill {
 //     return img
 // }
 
-let hills = [new Hill({
-    x: -1, 
-    y: 0,
-    image: imageHill
-})]
+let lastKey;
 
-let platforms = [new Platform({ 
-    x: -1, 
-    y:515,
-    image:imagePlatform
-}),
- new Platform({
-    x : imagePlatform.width - 3,
-    y : 515,
-    image:imagePlatform
- }),
- new Platform({
-    x : imagePlatform.width * 2 + 100,
-    y : 515,
-    image:imagePlatform
- })];
+let hills = [];
+
+let platforms = [];
+
+let platformSmallTalls = [];
 
 
 //  const generateObjects = [
@@ -197,6 +252,12 @@ hills = [new Hill({
     image: imageHill
 })]
 
+platformSmallTalls = [new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 4 + 700 - 2, 
+    y: 340,
+    image: imagePlatformSmallTall
+})]
+
 platforms = [new Platform({ 
     x: -1, 
     y:515,
@@ -208,11 +269,55 @@ platforms = [new Platform({
     image:imagePlatform
  }),
  new Platform({
-    x : imagePlatform.width * 2 + 100,
+    x : imagePlatform.width * 2 + 160,
     y : 515,
     image:imagePlatform
- })];
-
+ }),
+ new Platform({
+    x : imagePlatform.width * 3 + 300,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 4 + 300 - 2,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 5 + 800 - 2,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 6 + 800 - 2,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 7 + 800 - 2,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 8 + 900 - 2,
+    y : 200,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 10 + 800 - 2,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 11 + 800 - 2,
+    y : 515,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 12 + 900 - 2,
+    y : 400,
+    image:imagePlatform
+ })]
 //  const generateObjects = [
 //     new GenerateObject({
 //         x:0,
@@ -234,9 +339,15 @@ function animate() {
     // generateObjects.forEach(generateObject => {
     //     generateObject.draw()
     // });
+
     hills.forEach((hill) => {
         hill.draw();
     })
+
+    platformSmallTalls.forEach((platformSmallTall) => {
+        platformSmallTall.draw();
+    })
+
     platforms.forEach((platform) => {
         platform.draw();
     })
@@ -245,7 +356,7 @@ function animate() {
 
     if (keys.right.pressed && player.position.x < 400) {
         player.velocity.x = player.speed
-    }else if(keys.left.pressed && player.position.x > 100) {
+    }else if((keys.left.pressed && player.position.x > 100) || keys.left.pressed && scrollOffset === 0 && player.position.x > 0) {
         player.velocity.x = -player.speed
     }  else {
         player.velocity.x = 0
@@ -256,16 +367,25 @@ function animate() {
                 platform.position.x -= player.speed
             })
 
+            platformSmallTalls.forEach((platformSmallTall) => {
+                platformSmallTall.position.x -= player.speed
+            })
+
             hills.forEach((hill) => {
                 hill.position.x -= player.speed * 0.66;
             })
-        }else if (keys.left.pressed) {
+        }else if (keys.left.pressed && scrollOffset > 0) {
             scrollOffset -= player.speed
 
 
             platforms.forEach((platform) => {
                 platform.position.x += player.speed
             })
+
+            platformSmallTalls.forEach((platformSmallTall) => {
+                platformSmallTall.position.x += player.speed
+            })
+
             hills.forEach((hill) => {
                 hill.position.x += player.speed * 0.66;
             })
@@ -280,16 +400,62 @@ function animate() {
         player.velocity.y = 0
     }
         
-    })   
+    })  
     
-    if (scrollOffset > 2000) {
-        console.log(scrollOffset)
+    
+    platformSmallTalls.forEach((platformSmallTall) => {
+        if (player.position.y + player.height <= platformSmallTall.position.y && player.position.y + player.height + player.velocity.y >= platformSmallTall.position.y && player.position.x + player.width >= platformSmallTall.position.x && player.position.x <= platformSmallTall.position.x + platformSmallTall.width ) 
+    {
+        player.velocity.y = 0
+    }
+        
+    })  
+       
+    
+    if (
+        keys.right.pressed &&
+        lastKey === 'right' && 
+        player.currentSprite !== player.sprites.run.right
+        ) {
+        player.frames = 1
+        player.currentSprite = player.sprites.run.right
+        player.currentCropWidht = player.sprites.run.cropWidht
+        player.width = player.sprites.run.width
+    } else if(
+        keys.left.pressed &&
+        lastKey === 'left' && 
+        player.currentSprite !== player.sprites.run.left
+        ) {              
+         player.currentSprite = player.sprites.run.left
+            player.currentCropWidht = player.sprites.run.cropWidht
+            player.width = player.sprites.run.width
+    }else if(
+        !keys.left.pressed &&
+        lastKey === 'left' && 
+        player.currentSprite !== player.sprites.stand.left
+        ) {              
+         player.currentSprite = player.sprites.stand.left
+            player.currentCropWidht = player.sprites.stand.cropWidht
+            player.width = player.sprites.stand.width
+    }else if(
+        !keys.right.pressed &&
+        lastKey === 'right' && 
+        player.currentSprite !== player.sprites.stand.right
+        ) {              
+         player.currentSprite = player.sprites.stand.right
+            player.currentCropWidht = player.sprites.stand.cropWidht
+            player.width = player.sprites.stand.width
+    }
+    
+    if (scrollOffset > imagePlatform.width * 5 + 800 - 2) {
+        console.log('you win');  
     }
 
     if (player.position.y > canvas.height) {
         init()
     }
 }
+init();
 
 animate();
 
