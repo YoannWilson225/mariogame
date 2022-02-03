@@ -241,7 +241,7 @@ let platformSmallTalls = [];
 let scrollOffset = 0;
 
 function init() {
-// initSound.play();
+initSound.play();
 player = new Player();
 
 // function createImage(imageSrc){
