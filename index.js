@@ -1,8 +1,8 @@
 // Recupere notre element canvas
 const canvas = document.querySelector('canvas');
 const gravity = 0.5
-canvas.width = 1000;
-canvas.height = 576;
+canvas.width = 1700;
+canvas.height = 800;
 const imagePlatform = document.querySelector('.imageplatform');
 const imageHill = document.querySelector('.imagehill');
 const imagePlatformSmallTall = document.querySelector('.imageplatformsmall');
@@ -10,6 +10,8 @@ const imageSpriteStandRight = document.querySelector('.spriteStandRight')
 const imageSpriteRunRight = document.querySelector('.spriteRunRight')
 const imageSpriteRunLeft = document.querySelector('.spriteRunLeft')
 const imageSpriteStandLeft = document.querySelector('.spriteStandLeft')
+const jumpSound = new Audio("audio/jumpShort.mp3");
+const initSound = new Audio("audio/initSoundShort.mp3");
 // On lui donne un contexte
 let ctx = canvas.getContext('2d');
 
@@ -115,6 +117,7 @@ addEventListener('keydown', ({ keyCode }) => {
         case 38: 
             console.log('up');
             player.velocity.y -= 20
+            jumpSound.play();
             break;
     }
 })
@@ -141,6 +144,7 @@ addEventListener('keyup', ({ keyCode }) => {
         case 38: 
             console.log('up');
             player.velocity.y = 0
+            jumpSound.play();
             break;
     }
 })
@@ -237,7 +241,7 @@ let platformSmallTalls = [];
 let scrollOffset = 0;
 
 function init() {
-
+// initSound.play();
 player = new Player();
 
 // function createImage(imageSrc){
@@ -248,74 +252,94 @@ player = new Player();
 
 hills = [new Hill({
     x: -1, 
-    y: 0,
+    y: 224,
     image: imageHill
 })]
 
 platformSmallTalls = [new PlatformSmallTall({
     x: imagePlatformSmallTall.width * 4 + 700 - 2, 
-    y: 340,
+    y: 564,
     image: imagePlatformSmallTall
-})]
-
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 19 + 1010 - 2, 
+    y: 564,
+    image: imagePlatformSmallTall
+}),
+// new PlatformSmallTall({
+//     x: imagePlatformSmallTall.width * 20 + 900 - 2, 
+//     y: 340,
+//     image: imagePlatformSmallTall
+// })
+]
 platforms = [new Platform({ 
     x: -1, 
-    y:515,
+    y:739,
     image:imagePlatform
 }),
  new Platform({
     x : imagePlatform.width - 3,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 2 + 160,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 3 + 300,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 4 + 300 - 2,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 5 + 800 - 2,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 6 + 800 - 2,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 7 + 800 - 2,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 8 + 900 - 2,
-    y : 200,
+    y : 449,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 10 + 800 - 2,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 11 + 800 - 2,
-    y : 515,
+    y : 739,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 12 + 900 - 2,
-    y : 400,
+    y : 649,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 13 + 900 - 2,
+    y : 449,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 15 + 900 - 2,
+    y : 739,
     image:imagePlatform
  })]
 //  const generateObjects = [
@@ -334,7 +358,7 @@ scrollOffset = 0;
 
 function animate() {
     requestAnimationFrame(animate);
-    ctx.fillStyle = '#124552';
+    ctx.fillStyle = 'pink';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     // generateObjects.forEach(generateObject => {
     //     generateObject.draw()
@@ -464,4 +488,3 @@ animate();
 // 38 top
 // 40 down
 // 32 space
-
