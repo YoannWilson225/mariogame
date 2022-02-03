@@ -1,2 +1,2 @@
 # mariogame
-https://mariogamewilson.netlify.app/
+https://yoannwilson225.github.io/mariogame/
