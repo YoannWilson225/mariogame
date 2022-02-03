@@ -2,7 +2,7 @@
 const canvas = document.querySelector('canvas');
 const gravity = 0.5
 canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.height = 800;
 const imagePlatform = document.querySelector('.imageplatform');
 const imageHill = document.querySelector('.imagehill');
 const imagePlatformSmallTall = document.querySelector('.imageplatformsmall');
@@ -241,7 +241,7 @@ let platformSmallTalls = [];
 let scrollOffset = 0;
 
 function init() {
-initSound.play();
+// initSound.play();
 player = new Player();
 
 // function createImage(imageSrc){
