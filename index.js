@@ -1,8 +1,8 @@
 // Recupere notre element canvas
 const canvas = document.querySelector('canvas');
 const gravity = 0.5
-canvas.width = 1700;
-canvas.height = 800;
+canvas.width = 1650;
+canvas.height = 750;
 const imagePlatform = document.querySelector('.imageplatform');
 const imageHill = document.querySelector('.imagehill');
 const imagePlatformSmallTall = document.querySelector('.imageplatformsmall');
@@ -252,18 +252,18 @@ player = new Player();
 
 hills = [new Hill({
     x: -1, 
-    y: 224,
+    y: 174,
     image: imageHill
 })]
 
 platformSmallTalls = [new PlatformSmallTall({
     x: imagePlatformSmallTall.width * 4 + 700 - 2, 
-    y: 564,
+    y: 514,
     image: imagePlatformSmallTall
 }),
 new PlatformSmallTall({
     x: imagePlatformSmallTall.width * 19 + 1010 - 2, 
-    y: 564,
+    y: 514,
     image: imagePlatformSmallTall
 }),
 // new PlatformSmallTall({
@@ -274,42 +274,42 @@ new PlatformSmallTall({
 ]
 platforms = [new Platform({ 
     x: -1, 
-    y:739,
+    y:689,
     image:imagePlatform
 }),
  new Platform({
     x : imagePlatform.width - 3,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 2 + 160,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 3 + 300,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 4 + 300 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 5 + 800 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 6 + 800 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 7 + 800 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
@@ -319,27 +319,27 @@ platforms = [new Platform({
  }),
  new Platform({
     x : imagePlatform.width * 10 + 800 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 11 + 800 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 12 + 900 - 2,
-    y : 649,
+    y : 599,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 13 + 900 - 2,
-    y : 449,
+    y : 339,
     image:imagePlatform
  }),
  new Platform({
     x : imagePlatform.width * 15 + 900 - 2,
-    y : 739,
+    y : 689,
     image:imagePlatform
  })]
 //  const generateObjects = [
