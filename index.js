@@ -6,6 +6,8 @@ canvas.height = 800;
 const imagePlatform = document.querySelector('.imageplatform');
 const imageHill = document.querySelector('.imagehill');
 const imagePlatformSmallTall = document.querySelector('.imageplatformsmall');
+const imagePlatformSmall = document.querySelector('.imageplatformSmall');
+const imagePlatformTallName = document.querySelector('.platformtallname');
 const imageSpriteStandRight = document.querySelector('.spriteStandRight')
 const imageSpriteRunRight = document.querySelector('.spriteRunRight')
 const imageSpriteRunLeft = document.querySelector('.spriteRunLeft')
@@ -95,10 +97,8 @@ const keys = {
 }
 
 addEventListener('keydown', ({ keyCode }) => {
-    console.log(keyCode)
     switch(keyCode) {
         case 37: 
-            console.log('left')
             keys.left.pressed = true
             lastKey = 'left';
             break;
@@ -109,13 +109,11 @@ addEventListener('keydown', ({ keyCode }) => {
         //     break;
 
         case 39: 
-            console.log('right')
             keys.right.pressed = true
             lastKey = 'right'
             break;
 
         case 38: 
-            console.log('up');
             player.velocity.y -= 20
             jumpSound.play();
             break;
@@ -124,10 +122,8 @@ addEventListener('keydown', ({ keyCode }) => {
 
 
 addEventListener('keyup', ({ keyCode }) => {
-    console.log(keyCode)
     switch(keyCode) {
         case 37: 
-            console.log('left')
             keys.left.pressed = false
             break;
 
@@ -137,12 +133,10 @@ addEventListener('keyup', ({ keyCode }) => {
         //     break;
 
         case 39: 
-            console.log('right')
             keys.right.pressed = false
             break;
 
         case 38: 
-            console.log('up');
             player.velocity.y = 0
             jumpSound.play();
             break;
@@ -194,6 +188,53 @@ class PlatformSmallTall {
     }
 }
 
+
+class PlatformTallName {
+    constructor({ x, y, image }) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 200
+        this.height = 20
+
+        this.image = image,
+        this.width = this.image.width
+        this.height = this.image.height
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        // ctx.fillStyle = 'blue';
+        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+
+
+class PlatformSmall {
+    constructor({ x, y, image }) {
+        this.position = {
+            x,
+            y
+        }
+
+        this.width = 200
+        this.height = 20
+
+        this.image = image,
+        this.width = this.image.width
+        this.height = this.image.height
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        // ctx.fillStyle = 'blue';
+        // ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
 class Hill {
     constructor({ x, y, image }) {
         this.position = {
@@ -222,6 +263,10 @@ class Hill {
 //     return img
 // }
 
+let platformTallNames = [];
+
+let platformSmalls = [];
+
 let lastKey;
 
 let hills = [];
@@ -241,7 +286,7 @@ let platformSmallTalls = [];
 let scrollOffset = 0;
 
 function init() {
-// initSound.play();
+initSound.play();
 player = new Player();
 
 // function createImage(imageSrc){
@@ -250,11 +295,19 @@ player = new Player();
 //     return img
 // }
 
-hills = [new Hill({
+hills = [
+    new Hill({
     x: -1, 
     y: 224,
     image: imageHill
+}),
+new Hill({
+    x: imageHill.width * 1.1, 
+    y: 224,
+    image: imageHill
 })]
+
+
 
 platformSmallTalls = [new PlatformSmallTall({
     x: imagePlatformSmallTall.width * 4 + 700 - 2, 
@@ -266,12 +319,126 @@ new PlatformSmallTall({
     y: 564,
     image: imagePlatformSmallTall
 }),
-// new PlatformSmallTall({
-//     x: imagePlatformSmallTall.width * 20 + 900 - 2, 
-//     y: 340,
-//     image: imagePlatformSmallTall
-// })
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 26 + 860 - 2, 
+    y: 564,
+    image: imagePlatformSmallTall
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 26 + 860 - 2, 
+    y: 390,
+    image: imagePlatformSmallTall
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 27 + 860 - 2, 
+    y: 564,
+    image: imagePlatformSmallTall
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 35 + 860 - 2, 
+    y: 639,
+    image: imagePlatformSmallTall
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 36 + 860 - 2, 
+    y: 639,
+    image: imagePlatformSmallTall
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 37 + 860 - 2, 
+    y: 639,
+    image: imagePlatformSmallTall
+}),
+new PlatformSmallTall({
+    x: imagePlatformSmallTall.width * 38 + 860 - 2, 
+    y: 639,
+    image: imagePlatformSmallTall
+})
 ]
+
+
+platformSmalls = [
+    new PlatformSmall({
+    x: imagePlatformSmall.width * 65 + 900 - 2, 
+    y: 250,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 68 + 900 - 2, 
+    y: 500,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 71 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 71 + 900 - 2, 
+    y: 250,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 92 + 900 - 2, 
+    y: 400,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 120 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 124 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 128 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 132 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 136 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 140 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 144 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 148 + 900 - 2, 
+    y: 739,
+    image: imagePlatformSmall
+}),
+new PlatformSmall({
+    x: imagePlatformSmall.width * 153 + 900 - 2, 
+    y: 480,
+    image: imagePlatformSmall
+})];
+
+
+
+
+platformTallNames = [new PlatformTallName({
+    x: imagePlatformTallName.width * 8, 
+    y: 1,
+    image: imagePlatformTallName
+})];
+
+
 
 platforms = [new Platform({ 
     x: -1, 
@@ -342,6 +509,36 @@ platforms = [new Platform({
     x : imagePlatform.width * 15 + 900 - 2,
     y : 739,
     image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 20 + 900 - 2,
+    y : 739,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 21 + 900 - 2,
+    y : 739,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 22 + 900 - 2,
+    y : 739,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 25 + 900 - 2,
+    y : 739,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 41 + 900 - 2,
+    y : 739,
+    image:imagePlatform
+ }),
+ new Platform({
+    x : imagePlatform.width * 42 + 900 - 2,
+    y : 739,
+    image:imagePlatform
  })]
 //  const generateObjects = [
 //     new GenerateObject({
@@ -373,6 +570,18 @@ function animate() {
         platformSmallTall.draw();
     })
 
+    platformTallNames.forEach((platformTallName)=> {
+        platformTallName.draw();
+    })
+
+    platformSmalls.forEach((platformSmall) => {
+        platformSmall.draw();
+    })
+
+    platformSmallTalls.forEach((platformSmallTall) => {
+        platformSmallTall.draw();
+    })
+
     platforms.forEach((platform) => {
         platform.draw();
     })
@@ -388,17 +597,29 @@ function animate() {
 
         if (keys.right.pressed) {
             scrollOffset += player.speed
+
             platforms.forEach((platform) => {
                 platform.position.x -= player.speed
+            })
+
+            platformTallNames.forEach((platformTallName )=> {
+                platformTallName.position.x -= player.speed
             })
 
             platformSmallTalls.forEach((platformSmallTall) => {
                 platformSmallTall.position.x -= player.speed
             })
 
+            platformSmalls.forEach((platformSmall) => {
+                platformSmall.position.x -= player.speed
+            })
+
+
             hills.forEach((hill) => {
                 hill.position.x -= player.speed * 0.66;
             })
+
+
         }else if (keys.left.pressed && scrollOffset > 0) {
             scrollOffset -= player.speed
 
@@ -407,8 +628,16 @@ function animate() {
                 platform.position.x += player.speed
             })
 
+            platformTallNames.forEach((platformTallName) => {
+                platformTallName.position.x += player.speed
+            })
+
             platformSmallTalls.forEach((platformSmallTall) => {
                 platformSmallTall.position.x += player.speed
+            })
+
+            platformSmalls.forEach((platformSmall) => {
+                platformSmall.position.x += player.speed
             })
 
             hills.forEach((hill) => {
@@ -435,6 +664,23 @@ function animate() {
     }
         
     })  
+
+    platformSmalls.forEach((platformSmall) => {
+        if (player.position.y + player.height <= platformSmall.position.y && player.position.y + player.height + player.velocity.y >= platformSmall.position.y && player.position.x + player.width >= platformSmall.position.x && player.position.x <= platformSmall.position.x + platformSmall.width ) 
+    {
+        player.velocity.y = 0
+    }
+        
+    })  
+       
+
+    // platformTallNames.forEach((platformTallName) => {
+    //     if (player.position.y + player.height <= platformTallName.position.y && player.position.y + player.height + player.velocity.y >= platformTallName.position.y && player.position.x + player.width >= platformTallName.position.x && player.position.x <= platformTallName.position.x + platformTallName.width ) 
+    // {
+    //     player.velocity.y = 0
+    // }
+        
+    // })  
        
     
     if (
@@ -472,8 +718,8 @@ function animate() {
             player.width = player.sprites.stand.width
     }
     
-    if (scrollOffset > imagePlatform.width * 5 + 800 - 2) {
-        console.log('you win');  
+    if (scrollOffset > imagePlatform.width * 42 + 900 - 2 || scrollOffset == imagePlatform.width * 42 + 900 - 2 ) {
+        document.write('YOU WIN');  
     }
 
     if (player.position.y > canvas.height) {
