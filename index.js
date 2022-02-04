@@ -14,6 +14,7 @@ const imageSpriteRunLeft = document.querySelector('.spriteRunLeft')
 const imageSpriteStandLeft = document.querySelector('.spriteStandLeft')
 const jumpSound = new Audio("audio/jumpShort.mp3");
 const initSound = new Audio("audio/initSoundShort.mp3");
+const marcheSound = new Audio("audio/marcheShort.mp3");
 // On lui donne un contexte
 let ctx = canvas.getContext('2d');
 
@@ -101,6 +102,7 @@ addEventListener('keydown', ({ keyCode }) => {
         case 37: 
             keys.left.pressed = true
             lastKey = 'left';
+            marcheSound.play();
             break;
 
         // case 40: 
@@ -111,6 +113,7 @@ addEventListener('keydown', ({ keyCode }) => {
         case 39: 
             keys.right.pressed = true
             lastKey = 'right'
+            marcheSound.play();
             break;
 
         case 38: 
@@ -138,7 +141,6 @@ addEventListener('keyup', ({ keyCode }) => {
 
         case 38: 
             player.velocity.y = 0
-            jumpSound.play();
             break;
     }
 })
